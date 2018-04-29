@@ -1,0 +1,99 @@
+
+
+public class TreeNode {
+
+    public int val;
+    public TreeNode left,right;
+
+
+    private TreeNode search(TreeNode root,int key)
+    {
+        if(root == null)
+            return null;
+
+        if(key < root.val)
+        {
+            return search(root.left,key);
+        }
+        else if(key > root.val)
+        {
+            return search(root.right,key);
+        }
+        else
+        {
+            return root;
+        }
+
+    }
+
+    private TreeNode findMin(TreeNode root)
+    {
+        if(root == null)
+            return null;
+        else if(root.left == null)
+            return root;
+        else return findMin(root.left);
+
+        if(root == null)
+            return null;
+
+        while(root.left != null)
+            root = root.left;
+
+        return root;
+
+    }
+
+    private TreeNode findMax(TreeNode root)
+    {
+        if(root == null)
+            return null;
+        else if(root.right == null)
+            return root;
+        else
+            return findMax(root.right);
+
+
+        if(root == null)
+            return null;
+
+        while(root.right != null)
+            root = root.right;
+
+        return root;
+
+    }
+
+
+    public TreeNode insert(TreeNode root,int key)
+    {
+        if(root == null)
+        {
+            TreeNode newNode = new TreeNode(key);
+            return newNode;
+        }
+        else if(key < root.val)
+        {
+            root.left = insert(root.left,key);
+        }
+        else if(key > root.val)
+        {
+            root.right = insert(root.right,key);
+        }
+        else
+        {
+            // handle duplicates here
+        }
+
+        return root;
+
+
+    }
+
+
+
+
+
+}
+
+
