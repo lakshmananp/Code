@@ -1,0 +1,136 @@
+public class SeparateChaining
+{
+	
+	List<ListNode<K,V>> list = null;
+	int capacity;
+
+	public SeparateChaining(int size)
+	{
+		this.capacity = size;
+		list = new ArrayList<ListNode<K,V>>(capacity);
+
+		for(int i=0;i<capacity;i++)
+			list.get(i).add(null);
+	}
+
+
+	private int hashValue(K key)
+	{
+		return (int)((key.hashCode())%(list.size()));
+	}
+
+	public V get(K key)
+	{
+		int index = hashValue(key);
+
+		ListNode<K,V> head = list.get(index);
+
+		ListNode<K,V> ptr = head;
+
+		while(ptr != null)
+		{
+			if(ptr.key == key)
+			{
+				return ptr.value;
+			}
+
+			ptr = ptr.next;
+		}
+
+		return null;
+
+	}
+
+
+	public boolean remove(K key)
+	{
+		int index = hashValue(key);
+
+		ListNode<K,V> head = list.get(index);
+
+		boolean found = false;
+		ListNode<K,V> ptr = head;
+		ListNode<K,V> prev = null;
+
+		while(ptr != null)
+		{
+			if(ptr.key == key)
+			{
+				found = true;
+				if(ptr == head)
+				{
+					head = head.next;
+				}
+				else
+				{
+				prev.next = ptr.next;
+				}
+			}
+			else
+			{
+
+			 	prev = ptr;
+			}
+
+			ptr = ptr.next;
+		}
+
+		if(found)
+		list.set(index,head);
+
+		return found;
+	}
+
+
+	public void add(K key,V value)
+	{
+
+		boolean found = false;
+		int index = hashValue(key);
+
+		ListNode<K,V> head = list.get(index);
+
+		ListNode<K,V> ptr = head;
+
+		while(ptr != null)
+		{
+			if(ptr.key == key)
+			{
+				ptr.value = value;
+				found = true;
+				break;
+			}
+			ptr = ptr.next;
+		}
+
+		if(found)
+			return;
+
+		ListNode<K,V> temp = new ListNode<K,V>(key,value);
+		
+		temp.next = head;
+		head = temp;
+
+		list.set(index,head);	
+
+	}
+
+
+	private static class ListNode<K,V>
+	{
+		K key;
+		V value;
+		ListNode<K,V> prev,next;
+
+		public ListNode(K key, V value)
+		{
+			this.key = key;
+			this.value = value;
+			prev = null;
+			next = null;
+		}
+
+	}
+
+
+}
